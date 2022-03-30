@@ -28,27 +28,27 @@ _OVERRUN = const(-5)
 _BADDATA = const(-6)
 _BADADDR = const(-7)
 
-IR_REMOTE_A = 64 #const(0x45)
-IR_REMOTE_B = 77 #const(0x46)
-IR_REMOTE_C = 65 #const(0x47)
-IR_REMOTE_D = 76 #const(0x44)
-IR_REMOTE_E = 17#const(0x43)
-IR_REMOTE_F = 16#const(0x0d)
-IR_REMOTE_UP = 22#const(0x40)
-IR_REMOTE_DOWN = 26#const(0x19)
-IR_REMOTE_LEFT = 81#const(0x7)
-IR_REMOTE_RIGHT = 80#const(0x9)
-IR_REMOTE_SETUP = 19#const(0x15)
-IR_REMOTE_0 = 1#const(0x16)
-IR_REMOTE_1 = 78#const(0x0c)
-IR_REMOTE_2 = 13#const(0x18)
-IR_REMOTE_3 = 12#const(0x5e)
-IR_REMOTE_4 = 74#const(0x08)
-IR_REMOTE_5 = 9#const(0x1c)
-IR_REMOTE_6 = 8#const(0x5a)
-IR_REMOTE_7 = 70#const(0x42)
-IR_REMOTE_8 = 5#const(0x52)
-IR_REMOTE_9 = 4#const(0x4a)
+IR_REMOTE_A = const(0x45)
+IR_REMOTE_B = const(0x46)
+IR_REMOTE_C = const(0x47)
+IR_REMOTE_D = const(0x44)
+IR_REMOTE_E = const(0x43)
+IR_REMOTE_F = const(0x0d)
+IR_REMOTE_UP = const(0x40)
+IR_REMOTE_DOWN = const(0x19)
+IR_REMOTE_LEFT = const(0x7)
+IR_REMOTE_RIGHT = const(0x9)
+IR_REMOTE_SETUP = const(0x15)
+IR_REMOTE_0 = const(0x16)
+IR_REMOTE_1 = const(0x0c)
+IR_REMOTE_2 = const(0x18)
+IR_REMOTE_3 = const(0x5e)
+IR_REMOTE_4 = const(0x08)
+IR_REMOTE_5 = const(0x1c)
+IR_REMOTE_6 = const(0x5a)
+IR_REMOTE_7 = const(0x42)
+IR_REMOTE_8 = const(0x52)
+IR_REMOTE_9 = const(0x4a)
 
 _errors = {_BADSTART : 'Invalid start pulse',
            _BADBLOCK : 'Error: bad block',
@@ -106,16 +106,16 @@ class IR_RX():
             if width > 2500:  # 4.5ms space for normal data
                 #if self.edge < 68:  # Haven't received the correct number of edges
                 #    raise RuntimeError(BADBLOCK)
-                # Time spaces only (marks are always 562.5纰宻)
-                # Space is 1.6875ms (1) or 562.5纰宻 (0)
+                # Time spaces only (marks are always 562.5µs)
+                # Space is 1.6875ms (1) or 562.5µs (0)
                 # Skip last bit which is always 1
                 val = 0
                 for edge in range(3, 68 - 2, 2):
                     val >>= 1
                     if ticks_diff(self._times[edge + 1], self._times[edge]) > 1120:
                         val |= 0x80000000
-            elif width > 1000: # 2.5ms space for a repeat code. Should have exactly 4 edges.
-                raise RuntimeError(_REPEAT if (self.edge == 3 or self.edge == 4) else _BADREP)  # Treat REPEAT as error.
+            elif width > 110: # 2.5ms space for a repeat code. Should have exactly 4 edges.
+                raise RuntimeError(_REPEAT if (self.edge >= 3 or self.edge <= 8) else _BADREP)  # Treat REPEAT as error.
             else:
                 raise RuntimeError(_BADSTART)
             addr = val & 0xff  # 8 bit addr
@@ -203,4 +203,3 @@ class IR_RX():
         self._pin.irq(handler = None)
         if self._tim:
             self._tim.deinit()
-

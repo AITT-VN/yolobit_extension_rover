@@ -1,30 +1,31 @@
-
 from yolobit import *
 import machine, neopixel
 import time
 from utility import *
 import rover_pcf8574
 import rover_hcsr04
-import rover_ir
+from rover_ir import *
+
+# IR receiver
+rover_ir_rx = IR_RX(Pin(pin4.pin, Pin.IN))
+rover_ir_rx.start()
 
 class Rover():
 
     def __init__(self):
         # motor pins
-        self.ina1 = pin12
-        self.ina2 = pin2
+        self.ina1 = pin10
+        self.ina2 = pin15
 
-        self.inb1 = pin10
-        self.inb2 = pin11
-        
-        self.set_wheel_speed(0, 0)
+        self.inb1 = pin12
+        self.inb2 = pin2
 
         self.servo1 = pin16
         self.servo2 = pin6
         
         self.servo1.servo_release()
         self.servo2.servo_release()
-
+        
         # line IR sensors
         try:
             self.pcf = rover_pcf8574.PCF8574(
@@ -40,12 +41,11 @@ class Rover():
 
         # RGB leds
         self._num_leds = 6
-        self._rgb_leds = neopixel.NeoPixel(machine.Pin(pin15.pin), self._num_leds)
+        self._rgb_leds = neopixel.NeoPixel(machine.Pin(pin11.pin), self._num_leds)
 
         self.show_led(0, 0)
 
-        # IR receiver
-        self.ir_rx = rover_ir.IR_RX(Pin(pin4.pin, Pin.IN))
+        say('Rover setup done!')
 
     def forward(self, speed, t=None):
         self.set_wheel_speed(speed, speed)
@@ -115,6 +115,8 @@ class Rover():
             else:
                 return 1
 
+
+
     def show_led(self, index, state):
         if self.pcf:
             if index == 0: # both led
@@ -156,3 +158,6 @@ def stop_all(): # override stop function called by app
   rover.stop()
   rover.servo1.servo_release()
   rover.servo2.servo_release()
+  rover.show_rgb_led(0, hex_to_rgb('#00000'))
+  rover.show_led(0, 0)
+
