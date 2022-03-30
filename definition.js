@@ -279,7 +279,7 @@ Blockly.Blocks["rover_servo_write_angle"] = {
         },
         {
           "type": "field_image",
-          "src": ImgUrl + 'servo_block.webp',
+          "src": ImgUrl + 'servo.png',
           "width": 20,
           "height": 20,
           "alt": "*",
@@ -321,7 +321,7 @@ Blockly.Blocks['rover_servo360_write'] = {
           },
           {
             "type": "field_image",
-            "src": ImgUrl + 'servo_block.webp',
+            "src": ImgUrl + 'servo.png',
             "width": 20,
             "height": 20,
             "alt": "*",
@@ -366,7 +366,7 @@ Blockly.Blocks["rover_servo_release"] = {
         },
         {
           "type": "field_image",
-          "src": ImgUrl + 'servo_block.webp',
+          "src": ImgUrl + 'servo.png',
           "width": 20,
           "height": 20,
           "alt": "*",
