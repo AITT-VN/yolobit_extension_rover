@@ -453,7 +453,7 @@ Blockly.Blocks['rover_show_rgb_led_array'] = {
     this.jsonInit(
       {
         "type": "rover_show_rgb_led",
-        "message0": "%7 đổi led RGB số 1 %1 số 2 %2 số 3 %3 số 4 %4 số 5 %5 số 6 %6",
+        "message0": "%7 đổi led RGB 1 %1 2 %2 3 %3 4 %4 5 %5 6 %6",
         "args0": [
           {
             "type": "input_value",
@@ -771,6 +771,7 @@ Blockly.Blocks["rover_ir_recv"] = {
 
 Blockly.Python["rover_ir_recv"] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_rover_ir_receiver_init'] = 'rover_ir_rx.start()';
   var remote = block.getFieldValue("remote");
   // TODO: Assemble Python into code variable.
   var code = 'rover_ir_rx.get_code() == IR_REMOTE_' + remote;
@@ -847,6 +848,7 @@ Blockly.Blocks["rover_ir_on_receive"] = {
 
 Blockly.Python['rover_ir_on_receive'] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_rover_ir_receiver_init'] = 'rover_ir_rx.start()';
   var variable_message = Blockly.Python.variableDB_.getName(block.getFieldValue('message'), Blockly.Variables.NAME_TYPE);
   var statements_action = Blockly.Python.statementToCode(block, 'ACTION');
 

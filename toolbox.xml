@@ -89,7 +89,7 @@
     <block type="rover_show_rgb_led">
       <value name="number_led">
         <shadow type="math_number">
-          <field name="NUM">0</field>
+          <field name="NUM">1</field>
         </shadow>
       </value>
       <value name="color">

@@ -8,7 +8,6 @@ from rover_ir import *
 
 # IR receiver
 rover_ir_rx = IR_RX(Pin(pin4.pin, Pin.IN))
-rover_ir_rx.start()
 
 class Rover():
 
@@ -49,24 +48,27 @@ class Rover():
 
     def forward(self, speed, t=None):
         self.set_wheel_speed(speed, speed)
-
         if t != None :
-            self.stop(t)
+            time.sleep(t)
+            self.stop()
 
     def backward(self, speed, t=None):
         self.set_wheel_speed(-speed, -speed)
         if t != None :
-            self.stop(t)
+            time.sleep(t)
+            self.stop()
 
     def turn_right(self, speed, t=None):
         self.set_wheel_speed(speed, -speed)
         if t != None :
-            self.stop(t)
+            time.sleep(t)
+            self.stop()
 
     def turn_left(self, speed, t=None):
         self.set_wheel_speed(-speed, speed)
         if t != None :
-            self.stop(t)
+            time.sleep(t)
+            self.stop()
 
     def stop(self):
         self.set_wheel_speed(0, 0)
@@ -114,8 +116,6 @@ class Rover():
                 return self.pcf.pin(index)
             else:
                 return 1
-
-
 
     def show_led(self, index, state):
         if self.pcf:
