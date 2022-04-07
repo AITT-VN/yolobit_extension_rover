@@ -1086,6 +1086,7 @@ Blockly.Blocks['rover_line_sensor_read_all'] = {
 };
 
 Blockly.Python["rover_line_sensor_read_all"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   var S1 = block.getFieldValue("S1");
   var S2 = block.getFieldValue("S2");
   var S3 = block.getFieldValue("S3");
@@ -1132,6 +1133,7 @@ Blockly.Blocks['rover_line_sensor_read_single'] = {
 };
 
 Blockly.Python["rover_line_sensor_read_single"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   var pin = block.getFieldValue("pin");
   // TODO: Assemble Python into code variable.
   var code = "rover.read_line_sensors(" + pin + ")";
