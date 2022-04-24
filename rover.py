@@ -13,11 +13,11 @@ class Rover():
 
     def __init__(self):
         # motor pins
-        self.ina1 = pin10
-        self.ina2 = pin15
+        self.ina1 = pin12
+        self.ina2 = pin2
 
-        self.inb1 = pin12
-        self.inb2 = pin2
+        self.inb1 = pin10
+        self.inb2 = pin15
 
         self.servo1 = pin16
         self.servo2 = pin6
