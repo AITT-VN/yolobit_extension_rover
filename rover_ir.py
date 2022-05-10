@@ -4,7 +4,7 @@
 import gc
 from machine import Timer, Pin
 from array import array
-from utime import ticks_us, ticks_diff
+from utime import ticks_ms, ticks_us, ticks_diff
 from micropython import const
 
 # Save RAM
@@ -75,6 +75,7 @@ class IR_RX():
 
         self._key_pressed = None
         self._last_key_pressed = None
+        self._last_key_pressed_time = 0
         self._raw_code = None
 
         self._times = array('i',  (0 for _ in range(_EDGES + 1)))  # +1 for overrun
@@ -154,14 +155,20 @@ class IR_RX():
                 #self._raw_code = 'Repeat code'
                 if self.verbose:
                     print('Repeat code.')
-                #keep data old
-                self._key_pressed = self._last_key_pressed
+                # keep data old
+                if (ticks_ms() - self._last_key_pressed_time) < 1000:
+                    self._key_pressed = self._last_key_pressed
+                else:
+                    # last data is too old
+                    return
             else:
                 self._raw_code = 'Data: {:d}, Addr: {:d}'.format(cmd, addr)
                 if self.verbose:
                     print(self._raw_code)
                 self._key_pressed = cmd
                 self._last_key_pressed = self._key_pressed
+
+            self._last_key_pressed_time = ticks_ms()
 
             if self._callback:
                 self._callback(self._key_pressed, addr, ext)

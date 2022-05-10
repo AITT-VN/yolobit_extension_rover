@@ -273,8 +273,8 @@ Blockly.Blocks["rover_servo_write_angle"] = {
           type: "field_dropdown",
           name: "pin",
           options: [
-            ["S1", "servo1"],
-            ["S2", "servo2"],
+            ["S1", "1"],
+            ["S2", "2"],
           ],
         },
         {
@@ -295,7 +295,7 @@ Blockly.Python['rover_servo_write_angle'] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   var value_output = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
   var dropdown_pin = block.getFieldValue('pin');
-  var code = 'rover.' + dropdown_pin + '.servo_write(' + value_output + ')\n';
+  var code = 'rover.servo_write(' + dropdown_pin + ', ' + value_output + ')\n';
   return code;
 };
 
@@ -310,8 +310,8 @@ Blockly.Blocks['rover_servo360_write'] = {
             type: "field_dropdown",
             name: "pin",
             options: [
-              ["S1", "servo1"],
-              ["S2", "servo2"],
+              ["S1", "1"],
+              ["S2", "2"],
             ],
           },
           {
@@ -343,45 +343,7 @@ Blockly.Python['rover_servo360_write'] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   var value_output = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var dropdown_pin = block.getFieldValue('pin');
-  var code = 'rover.' + dropdown_pin + '.servo360_write(' + value_output + ')\n';
-  return code;
-};
-
-Blockly.Blocks["rover_servo_release"] = {
-  init: function () {
-    this.jsonInit({
-      colour: ColorBlock,
-      nextStatement: null,
-      tooltip: '',
-      message0: '%2 tắt điều khiển servo chân %1',
-      previousStatement: null,
-      args0: [
-        {
-          type: "field_dropdown",
-          name: "pin",
-          options: [
-            ["S1", "servo1"],
-            ["S2", "servo2"],
-          ],
-        },
-        {
-          "type": "field_image",
-          "src": ImgUrl + 'servo.png',
-          "width": 20,
-          "height": 20,
-          "alt": "*",
-          "flipRtl": false
-        }
-      ],
-      helpUrl: "",
-    });
-  },
-};
-
-Blockly.Python['rover_servo_release'] = function (block) {
-  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
-  var dropdown_pin = block.getFieldValue('pin');
-  var code = 'rover.' + dropdown_pin + '.servo_release()\n';
+  var code = 'rover.servo360_write(' + dropdown_pin + ', ' + value_output + ')\n';
   return code;
 };
 
@@ -1116,10 +1078,10 @@ Blockly.Blocks['rover_line_sensor_read_single'] = {
             "type": "field_dropdown",
             "name": "pin",
             "options": [
-              ["S1", "0"],
-              ["S2", "1"],
-              ["S3", "2"],
-              ["S4", "3"],
+              ["S1", "1"],
+              ["S2", "2"],
+              ["S3", "3"],
+              ["S4", "4"],
             ],
           },
         ],

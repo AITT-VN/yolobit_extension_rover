@@ -50,7 +50,17 @@
       </value>
     </block>
 
-    <block type="rover_servo_release" />
+    <block type="rover_line_sensor_read_all" />
+    <block type="rover_line_sensor_read_single" />
+
+    <block type="rover_ultrasonic_read" />
+    <block type="rover_ultrasonic_detect">
+      <value name="distance">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
 
     <block type="rover_show_led"/>
 
@@ -102,18 +112,6 @@
       <value name="color">
         <shadow type="colour_picker">
           <field name="COLOUR">#ff0000</field>
-        </shadow>
-      </value>
-    </block>
-
-    <block type="rover_line_sensor_read_all" />
-    <block type="rover_line_sensor_read_single" />
-
-    <block type="rover_ultrasonic_read" />
-    <block type="rover_ultrasonic_detect">
-      <value name="distance">
-        <shadow type="math_number">
-          <field name="NUM">10</field>
         </shadow>
       </value>
     </block>

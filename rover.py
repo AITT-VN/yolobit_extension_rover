@@ -1,5 +1,6 @@
 from yolobit import *
 import machine, neopixel
+from machine import *
 import time
 from utility import *
 import rover_pcf8574
@@ -13,17 +14,17 @@ class Rover():
 
     def __init__(self):
         # motor pins
-        self.ina1 = pin12
-        self.ina2 = pin2
+        self.ina1 = PWM(Pin(pin12.pin), freq=500, duty=0)
+        self.ina2 = PWM(Pin(pin2.pin), freq=500, duty=0)
 
-        self.inb1 = pin10
-        self.inb2 = pin15
+        self.inb1 = PWM(Pin(pin10.pin), freq=500, duty=0)
+        self.inb2 = PWM(Pin(pin15.pin), freq=500, duty=0)
 
-        self.servo1 = pin16
-        self.servo2 = pin3
-        
-        self.servo1.servo_release()
-        self.servo2.servo_release()
+        self.servo1 = PWM(Pin(pin16.pin), freq=50, duty=0)
+        self.servo2 = PWM(Pin(pin3.pin), freq=50, duty=0)
+
+        self.m1_speed = 0
+        self.m2_speed = 0
         
         # line IR sensors
         try:
@@ -75,45 +76,79 @@ class Rover():
         time.sleep_ms(20)
 
     def set_wheel_speed(self, m1_speed, m2_speed):
+        # logic to smoothen motion, avoid voltage spike
+        # if wheel speed change > 30, need to change to 30 first
+        need_delay = False
+        if m1_speed != 0 and abs(m1_speed - self.m1_speed) > 30:
+            if m1_speed > 0:
+                # Forward
+                self.ina1.duty(int(translate(30, 0, 100, 0, 1023)))
+                self.ina2.duty(0)
+            elif m1_speed < 0:
+                # Backward
+                self.ina1.duty(0)
+                self.ina2.duty(int(translate(30, 0, 100, 0, 1023)))
+            need_delay = True
+        
+        if m2_speed != 0 and abs(m2_speed - self.m2_speed) > 30:
+            if m2_speed > 0:
+                # Forward
+                self.ina1.duty(int(translate(30, 0, 100, 0, 1023)))
+                self.ina2.duty(0)
+            elif m2_speed < 0:
+                # Backward
+                self.ina1.duty(0)
+                self.ina2.duty(int(translate(30, 0, 100, 0, 1023)))
+            need_delay = True
+
+        if need_delay:
+            time.sleep_ms(200)
+
         if m1_speed > 0:
             # Forward
-            self.ina1.write_analog(int(translate(abs(m1_speed), 0, 100, 0, 1023)))
-            self.ina2.write_analog(0)
+            self.ina1.duty(int(translate(abs(m1_speed), 0, 100, 0, 1023)))
+            self.ina2.duty(0)
         elif m1_speed < 0:
             # Backward
-            self.ina1.write_analog(0)
-            self.ina2.write_analog(int(translate(abs(m1_speed), 0, 100, 0, 1023)))
+            self.ina1.duty(0)
+            self.ina2.duty(int(translate(abs(m1_speed), 0, 100, 0, 1023)))
         else:
             # Release
-            self.ina1.write_analog(0)
-            self.ina2.write_analog(0)
+            self.ina1.duty(0)
+            self.ina2.duty(0)
 
         if m2_speed > 0:
             # Forward
-            self.inb1.write_analog(int(translate(abs(m2_speed), 0, 100, 0, 1023)))
-            self.inb2.write_analog(0)
+            self.inb1.duty(int(translate(abs(m2_speed), 0, 100, 0, 1023)))
+            self.inb2.duty(0)
         elif m2_speed < 0:
             # Backward
-            self.inb2.write_analog(int(translate(abs(m2_speed), 0, 100, 0, 1023)))
-            self.inb1.write_analog(0)
+            self.inb2.duty(int(translate(abs(m2_speed), 0, 100, 0, 1023)))
+            self.inb1.duty(0)
         else:
             # Release
-            self.inb1.write_analog(0)
-            self.inb2.write_analog(0)
+            self.inb1.duty(0)
+            self.inb2.duty(0)
+        
+        self.m1_speed = m1_speed
+        self.m2_speed = m2_speed
 
-    def read_line_sensors(self, index=None):
+    def read_line_sensors(self, index=0):
         '''
         self.pcf.pin(0) = 0 white line
         self.pcf.pin(0) = 1 black line
         '''
-        if index == None:
+        if index < 0 or index > 4:
+            return 1
+ 
+        if index == 0:
             if self.pcf:
                 return (self.pcf.pin(0), self.pcf.pin(1), self.pcf.pin(2), self.pcf.pin(3))
             else:
                 return (1, 1, 1, 1) # cannot detect black line
         else:
             if self.pcf:
-                return self.pcf.pin(index)
+                return self.pcf.pin(index-1)
             else:
                 return 1
 
@@ -151,13 +186,38 @@ class Rover():
             elif (index > 0) and (index <= self._num_leds) :
                 self._rgb_leds[index - 1] = (0, 0, 0)
                 self._rgb_leds.write()
+    
+    def servo_write(self, index, value, max=180):
+        if index not in [1, 2]:
+            print("Servo index out of range")
+            return None
+        if value < 0 or value > max:
+            print("Servo position out of range. Must be from 0 to " + str(max) + " degree")
+            return
+
+        # duty for servo is between 25 - 115
+        duty = 25 + int((value/max)*100)
+
+        if index == 1:
+          self.servo1.duty(duty)
+        else:
+          self.servo2.duty(duty)
+
+    def servo360_write(self, index, value):
+        if value < -100 or value > 100:
+            print("Servo 360 speed out of range. Must be from -100 to 100")
+            return
+
+        if value == 0:
+            self.servo_write(index, 0)
+            return
+        else:
+            degree = 90 - (value/100)*90
+            self.servo_write(index, degree)
+
 
 rover = Rover()
 
 def stop_all(): # override stop function called by app
   rover.stop()
-  rover.servo1.servo_release()
-  rover.servo2.servo_release()
-  rover.show_rgb_led(0, hex_to_rgb('#00000'))
-  rover.show_led(0, 0)
 

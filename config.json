@@ -5,7 +5,8 @@
         "rover.py",
         "rover_hcsr04.py",
         "rover_pcf8574.py",
-        "rover_ir.py"
+        "rover_ir.py",
+        "main.py"
     ],
     "blocks": [
         "definition.js"

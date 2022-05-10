@@ -28,7 +28,7 @@ KEY_S1_OPEN = const(21)
 
 mode = ROBOT_MODE_DO_NOTHING
 mode_changed = False
-current_speed = 80
+current_speed = 100
 key = KEY_NONE
 ble_connected = False
 
@@ -59,6 +59,9 @@ def ir_callback(cmd, addr, ext):
         mode = ROBOT_MODE_AVOID_OBS
         mode_changed = True
     elif cmd == IR_REMOTE_C:
+        mode = ROBOT_MODE_FOLLOW
+        mode_changed = True
+    elif cmd == IR_REMOTE_D:
         mode = ROBOT_MODE_LINE_FINDER
         mode_changed = True
     elif cmd == IR_REMOTE_E:
@@ -129,10 +132,11 @@ def on_ble_message_string_receive_callback(chu_E1_BB_97i):
     mode = ROBOT_MODE_AVOID_OBS
     mode_changed = True
   elif chu_E1_BB_97i == ('!B318'): #C
+    mode = ROBOT_MODE_FOLLOW
+    mode_changed = True
+  elif chu_E1_BB_97i == ('!B417'): #D
     mode = ROBOT_MODE_LINE_FINDER
     mode_changed = True
-  #elif chu_E1_BB_97i == ('!B417'): #D
-  #  rover.servo2.servo_write(90)
   else:
     rover.stop()
   
@@ -148,9 +152,11 @@ try:
                 rover.show_rgb_led(0, hex_to_rgb('#ff0000'))
                 key = KEY_NONE
             elif mode == ROBOT_MODE_AVOID_OBS:
-                rover.show_rgb_led(0, hex_to_rgb('#00ff00'))
-            elif mode == ROBOT_MODE_LINE_FINDER:
                 rover.show_rgb_led(0, hex_to_rgb('#0000ff'))
+            elif mode == ROBOT_MODE_FOLLOW:
+                rover.show_rgb_led(0, hex_to_rgb('#ff00ff'))
+            elif mode == ROBOT_MODE_LINE_FINDER:
+                rover.show_rgb_led(0, hex_to_rgb('#ffffff'))
             mode_changed = False
 
         if mode == ROBOT_MODE_DO_NOTHING:
@@ -164,13 +170,13 @@ try:
                     elif key == KEY_DOWN:
                         rover.backward(current_speed)
                     elif key == KEY_LEFT:
-                        rover.turn_left(current_speed/1.5)
+                        rover.turn_left(current_speed/2)
                     elif key == KEY_RIGHT:
-                        rover.turn_right(current_speed/1.5)
+                        rover.turn_right(current_speed/2)
                     elif key == KEY_S1_CLOSE:
-                        rover.servo1.servo_write(0)
+                        rover.servo_write(1, 0)
                     elif key == KEY_S1_OPEN:
-                        rover.servo1.servo_write(120)
+                        rover.servo_write(1, 120)
 
                     key = KEY_NONE
                 else:
@@ -184,6 +190,25 @@ try:
               rover.turn_right(50, 0.25)
             else:
               rover.forward(50)
+        
+        elif mode == ROBOT_MODE_FOLLOW:
+            if rover.ultrasonic.distance_cm() < 15:
+              rover.backward(50, 0.5)
+              rover.turn_right(50, 0.25)
+            else:
+              rover.forward(50)
+            
+            obs_distance = rover.ultrasonic.distance_cm()
+
+            if obs_distance < 15:
+                rover.backward(50)
+            elif obs_distance < 30:
+                rover.stop()
+            elif obs_distance < 50:
+                rover.forward(50)
+            else:
+                rover.stop()
+            time.sleep_ms(50)
 
         elif mode == ROBOT_MODE_LINE_FINDER:
             if rover.read_line_sensors() == (1, 0, 0, 0):
