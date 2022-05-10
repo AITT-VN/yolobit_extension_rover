@@ -170,13 +170,19 @@ try:
                     elif key == KEY_DOWN:
                         rover.backward(current_speed)
                     elif key == KEY_LEFT:
-                        rover.turn_left(current_speed/2)
+                        turn_speed = int(current_speed/3)
+                        if turn_speed < 20:
+                            turn_speed = 20
+                        rover.turn_left(turn_speed)
                     elif key == KEY_RIGHT:
-                        rover.turn_right(current_speed/2)
+                        turn_speed = int(current_speed/3)
+                        if turn_speed < 20:
+                            turn_speed = 20
+                        rover.turn_right(turn_speed)
                     elif key == KEY_S1_CLOSE:
-                        rover.servo_write(1, 0)
+                        rover.servo_write(1, 20)
                     elif key == KEY_S1_OPEN:
-                        rover.servo_write(1, 120)
+                        rover.servo_write(1, 90)
 
                     key = KEY_NONE
                 else:
@@ -192,12 +198,6 @@ try:
               rover.forward(50)
         
         elif mode == ROBOT_MODE_FOLLOW:
-            if rover.ultrasonic.distance_cm() < 15:
-              rover.backward(50, 0.5)
-              rover.turn_right(50, 0.25)
-            else:
-              rover.forward(50)
-            
             obs_distance = rover.ultrasonic.distance_cm()
 
             if obs_distance < 15:
@@ -214,14 +214,14 @@ try:
             if rover.read_line_sensors() == (1, 0, 0, 0):
               rover.turn_left(50)
             elif rover.read_line_sensors() == (1, 1, 0, 0):
-              rover.turn_left(20)
+              rover.turn_left(30)
             elif rover.read_line_sensors() == (0, 0, 0, 1):
               rover.turn_right(50)
             elif rover.read_line_sensors() == (0, 0, 1, 1):
-              rover.turn_right(20)
+              rover.turn_right(30)
             elif rover.read_line_sensors() == (0, 0, 0, 0):
-              while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
-                rover.backward(20)
+              #while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
+              rover.backward(20)
             else:
               rover.forward(25)
             

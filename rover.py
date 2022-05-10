@@ -78,8 +78,7 @@ class Rover():
     def set_wheel_speed(self, m1_speed, m2_speed):
         # logic to smoothen motion, avoid voltage spike
         # if wheel speed change > 30, need to change to 30 first
-        need_delay = False
-        if m1_speed != 0 and abs(m1_speed - self.m1_speed) > 30:
+        if (m1_speed != 0 and abs(m1_speed - self.m1_speed) > 30) and (m2_speed != 0 and abs(m2_speed - self.m2_speed) > 30):
             if m1_speed > 0:
                 # Forward
                 self.ina1.duty(int(translate(30, 0, 100, 0, 1023)))
@@ -88,9 +87,7 @@ class Rover():
                 # Backward
                 self.ina1.duty(0)
                 self.ina2.duty(int(translate(30, 0, 100, 0, 1023)))
-            need_delay = True
-        
-        if m2_speed != 0 and abs(m2_speed - self.m2_speed) > 30:
+            
             if m2_speed > 0:
                 # Forward
                 self.inb1.duty(int(translate(30, 0, 100, 0, 1023)))
@@ -99,9 +96,7 @@ class Rover():
                 # Backward
                 self.inb1.duty(0)
                 self.inb2.duty(int(translate(30, 0, 100, 0, 1023)))
-            need_delay = True
 
-        if need_delay:
             time.sleep_ms(200)
 
         if m1_speed > 0:
