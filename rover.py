@@ -20,7 +20,7 @@ class Rover():
         self.inb2 = pin15
 
         self.servo1 = pin16
-        self.servo2 = pin6
+        self.servo2 = pin3
         
         self.servo1.servo_release()
         self.servo2.servo_release()
@@ -40,7 +40,7 @@ class Rover():
 
         # RGB leds
         self._num_leds = 6
-        self._rgb_leds = neopixel.NeoPixel(machine.Pin(pin11.pin), self._num_leds)
+        self._rgb_leds = neopixel.NeoPixel(machine.Pin(pin6.pin), self._num_leds)
 
         self.show_led(0, 0)
 

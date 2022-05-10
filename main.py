@@ -119,9 +119,9 @@ def on_ble_message_string_receive_callback(chu_E1_BB_97i):
   elif chu_E1_BB_97i == ('!B615'):
     rover.backward(50)
   elif chu_E1_BB_97i == ('!B714'):
-    rover.turn_right(50)
-  elif chu_E1_BB_97i == ('!B814'):
     rover.turn_left(50)
+  elif chu_E1_BB_97i == ('!B814'):
+    rover.turn_right(50)
   elif chu_E1_BB_97i == ('!B11:'): #A
     mode = ROBOT_MODE_DO_NOTHING
     mode_changed = True
@@ -187,13 +187,13 @@ try:
 
         elif mode == ROBOT_MODE_LINE_FINDER:
             if rover.read_line_sensors() == (1, 0, 0, 0):
-              rover.turn_right(50)
-            elif rover.read_line_sensors() == (1, 1, 0, 0):
-              rover.turn_right(20)
-            elif rover.read_line_sensors() == (0, 0, 0, 1):
               rover.turn_left(50)
-            elif rover.read_line_sensors() == (0, 0, 1, 1):
+            elif rover.read_line_sensors() == (1, 1, 0, 0):
               rover.turn_left(20)
+            elif rover.read_line_sensors() == (0, 0, 0, 1):
+              rover.turn_right(50)
+            elif rover.read_line_sensors() == (0, 0, 1, 1):
+              rover.turn_right(20)
             elif rover.read_line_sensors() == (0, 0, 0, 0):
               while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
                 rover.backward(20)

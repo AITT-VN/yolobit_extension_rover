@@ -114,7 +114,7 @@ class IR_RX():
                     val >>= 1
                     if ticks_diff(self._times[edge + 1], self._times[edge]) > 1120:
                         val |= 0x80000000
-            elif width > 110: # 2.5ms space for a repeat code. Should have exactly 4 edges.
+            elif width > 50: # 2.5ms space for a repeat code. Should have exactly 4 edges.
                 raise RuntimeError(_REPEAT if (self.edge >= 3 or self.edge <= 8) else _BADREP)  # Treat REPEAT as error.
             else:
                 raise RuntimeError(_BADSTART)
