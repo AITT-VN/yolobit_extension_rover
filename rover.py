@@ -93,12 +93,12 @@ class Rover():
         if m2_speed != 0 and abs(m2_speed - self.m2_speed) > 30:
             if m2_speed > 0:
                 # Forward
-                self.ina1.duty(int(translate(30, 0, 100, 0, 1023)))
-                self.ina2.duty(0)
+                self.inb1.duty(int(translate(30, 0, 100, 0, 1023)))
+                self.inb2.duty(0)
             elif m2_speed < 0:
                 # Backward
-                self.ina1.duty(0)
-                self.ina2.duty(int(translate(30, 0, 100, 0, 1023)))
+                self.inb1.duty(0)
+                self.inb2.duty(int(translate(30, 0, 100, 0, 1023)))
             need_delay = True
 
         if need_delay:
