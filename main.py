@@ -1,10 +1,12 @@
 # This file is executed on every boot (including wake-boot from deepsleep)
-import gc, time
+import gc
+import time
 from yolobit import *
 import music
 from rover import *
 from rover_ir import *
 
+rover.stop()
 stop_all()
 rover.show_rgb_led(0, hex_to_rgb('#ff0000'))
 display.set_all('#ff0000')
@@ -32,6 +34,7 @@ current_speed = 100
 key = KEY_NONE
 ble_connected = False
 
+
 def on_button_a_pressed():
     global mode, mode_changed
     music.play(['G3:1'], wait=True)
@@ -43,12 +46,14 @@ def on_button_a_pressed():
         mode = ROBOT_MODE_LINE_FINDER
     elif mode == ROBOT_MODE_LINE_FINDER:
         mode = ROBOT_MODE_DO_NOTHING
-    
+
     mode_changed = True
     time.sleep_ms(100)
     print('mode changed by button')
 
+
 button_a.on_pressed = on_button_a_pressed
+
 
 def ir_callback(cmd, addr, ext):
     global mode, mode_changed, current_speed, key
@@ -98,22 +103,28 @@ def ir_callback(cmd, addr, ext):
     if mode_changed:
         print('mode changed by IR remote')
 
+
 rover_ir_rx.on_received(ir_callback)
 rover_ir_rx.start()
+
 
 def on_ble_connected_callback():
   global ble_connected
   display.set_all('#00ff00')
   ble_connected = True
 
+
 ble.on_connected(on_ble_connected_callback)
+
 
 def on_ble_disconnected_callback():
   global ble_connected
   display.set_all('#ff0000')
   ble_connected = False
 
+
 ble.on_disconnected(on_ble_disconnected_callback)
+
 
 def on_ble_message_string_receive_callback(chu_E1_BB_97i):
   global mode, mode_changed
@@ -125,25 +136,47 @@ def on_ble_message_string_receive_callback(chu_E1_BB_97i):
     rover.turn_left(50)
   elif chu_E1_BB_97i == ('!B814'):
     rover.turn_right(50)
-  elif chu_E1_BB_97i == ('!B11:'): #A
+  elif chu_E1_BB_97i == ('!B11:'):  # A
     mode = ROBOT_MODE_DO_NOTHING
     mode_changed = True
-  elif chu_E1_BB_97i == ('!B219'): #B
+  elif chu_E1_BB_97i == ('!B219'):  # B
     mode = ROBOT_MODE_AVOID_OBS
     mode_changed = True
-  elif chu_E1_BB_97i == ('!B318'): #C
+  elif chu_E1_BB_97i == ('!B318'):  # C
     mode = ROBOT_MODE_FOLLOW
     mode_changed = True
-  elif chu_E1_BB_97i == ('!B417'): #D
+  elif chu_E1_BB_97i == ('!B417'):  # D
     mode = ROBOT_MODE_LINE_FINDER
     mode_changed = True
   else:
     rover.stop()
-  
+
   if mode_changed:
     print('mode changed by app')
 
+
 ble.on_receive_msg("string", on_ble_message_string_receive_callback)
+
+def on_ble_message_name_value_receive_callback(name, value):
+        global current_speed, key, ble_key_received
+
+        if name == 'F':
+            rover.forward(value)
+        elif name == 'B':
+            rover.backward(value)
+        elif name == 'L':
+            rover.turn_left(value/1.5)
+        elif name == 'R':
+            rover.turn_right(value/1.5)
+        elif name == 'S':
+            current_speed = 80
+            rover.stop()
+        elif name == 'S1':
+            rover.servo_write(1, value)
+        elif name == 'S2':
+            rover.servo_write(2, value)
+
+ble.on_receive_msg("name_value", on_ble_message_name_value_receive_callback)
 
 try:
     while True :
@@ -220,7 +253,7 @@ try:
             elif rover.read_line_sensors() == (0, 0, 1, 1):
               rover.turn_right(30)
             elif rover.read_line_sensors() == (0, 0, 0, 0):
-              #while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
+              # while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
               rover.backward(20)
             else:
               rover.forward(25)

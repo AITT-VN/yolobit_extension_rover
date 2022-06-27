@@ -45,6 +45,8 @@ class Rover():
 
         self.show_led(0, 0)
 
+        self.stop()
+
         say('Rover setup done!')
 
     def forward(self, speed, t=None):

@@ -811,7 +811,7 @@ Blockly.Blocks["rover_ir_on_receive"] = {
 Blockly.Python['rover_ir_on_receive'] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   Blockly.Python.definitions_['import_rover_ir_receiver_init'] = 'rover_ir_rx.start()';
-  var variable_message = Blockly.Python.variableDB_.getName(block.getFieldValue('message'), Blockly.Variables.NAME_TYPE);
+  var variable_message = Blockly.Python.variableDB_.getName(block.getFieldValue('message'), Blockly.Names.NameType?Blockly.Names.NameType.VARIABLE:Blockly.Variables.NAME_TYPE);
   var statements_action = Blockly.Python.statementToCode(block, 'ACTION');
 
   var globals = [];
@@ -820,9 +820,10 @@ Blockly.Python['rover_ir_on_receive'] = function (block) {
   var variables = workspace.getAllVariables() || [];
   for (var i = 0, variable; variable = variables[i]; i++) {
     varName = variable.name;
-    if (variable_message != Blockly.Python.variableDB_.getName(varName, Blockly.Variables.NAME_TYPE))
+    if (Blockly.Python.variableDB_.getName(varName, Blockly.Names.NameType?Blockly.Names.NameType.VARIABLE:Blockly.Variables.NAME_TYPE) != variable_message) {
       globals.push(Blockly.Python.variableDB_.getName(varName,
-        Blockly.Variables.NAME_TYPE));
+        Blockly.Names.NameType?Blockly.Names.NameType.VARIABLE:Blockly.Variables.NAME_TYPE));
+    }
   }
   globals = globals.length ? Blockly.Python.INDENT + 'global ' + globals.join(', ') : '';
 
