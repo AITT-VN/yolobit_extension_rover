@@ -9,6 +9,10 @@ from rover_ir import *
 rover.stop()
 stop_all()
 rover.show_rgb_led(0, hex_to_rgb('#ff0000'))
+if mpu_detected == True:
+    for count in range(3):
+        music.play(['C4:1'], wait=True)
+        time.sleep_ms(100)
 display.set_all('#ff0000')
 music.play(music.POWER_UP, wait=False)
 
@@ -137,17 +141,13 @@ def on_ble_message_string_receive_callback(chu_E1_BB_97i):
   elif chu_E1_BB_97i == ('!B814'):
     rover.turn_right(50)
   elif chu_E1_BB_97i == ('!B11:'):  # A
-    mode = ROBOT_MODE_DO_NOTHING
-    mode_changed = True
+    rover.servo_write(1, 0)
   elif chu_E1_BB_97i == ('!B219'):  # B
-    mode = ROBOT_MODE_AVOID_OBS
-    mode_changed = True
+    rover.servo_write(2, 90)
   elif chu_E1_BB_97i == ('!B318'):  # C
-    mode = ROBOT_MODE_FOLLOW
-    mode_changed = True
+    rover.servo_write(2, 0)
   elif chu_E1_BB_97i == ('!B417'):  # D
-    mode = ROBOT_MODE_LINE_FINDER
-    mode_changed = True
+    rover.servo_write(1, 90)
   else:
     rover.stop()
 
@@ -168,6 +168,14 @@ def on_ble_message_name_value_receive_callback(name, value):
             rover.turn_left(value/1.5)
         elif name == 'R':
             rover.turn_right(value/1.5)
+        if name == 'FL':
+            rover.move(4, value/1.5)
+        elif name == 'BL':
+            rover.move(6, value/1.5)
+        elif name == 'FR':
+            rover.move(2, value/1.5)
+        elif name == 'BR':
+            rover.move(8, value/1.5)
         elif name == 'S':
             current_speed = 80
             rover.stop()

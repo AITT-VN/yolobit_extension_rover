@@ -6,6 +6,7 @@
         "rover_hcsr04.py",
         "rover_pcf8574.py",
         "rover_ir.py",
+        "rover_motion.py",
         "main.py"
     ],
     "blocks": [

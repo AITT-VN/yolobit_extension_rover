@@ -1,5 +1,5 @@
 const ColorBlock = '#cb2026';
-const ImgUrl = 'https://ohstem-public.s3.ap-southeast-1.amazonaws.com/extensions/AITT-VN/yolobit_extension_rover/images/';
+const ImgUrl = 'https://ohstem-public.s3.ap-southeast-1.amazonaws.com/extensions/AITT-VN/yolobit_extension_rover_advanced/images/';
 
 // Robot Move
 
@@ -176,7 +176,83 @@ Blockly.Python["rover_move_delay"] = function (block) {
   var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   var time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = "rover." + dir + "(" + speed + ", " + time + ")\n";
+  var code = "";
+  if ((dir == 'forward') || (dir == 'backward')) {
+    code = "rover." + dir + "(" + speed + ", " + time + ", True)\n";
+  } else code = "rover." + dir + "(" + speed + ", " + time + ")\n";
+  return code;
+};
+
+Blockly.Blocks['rover_move_turn_angle'] = {
+  init: function() {
+    this.jsonInit(
+      {
+        "type": "rover_move_turn_angle",
+        "message0": "%1 quay %2 một góc %3 với tốc độ %4 (cần cảm biến góc xoay)",
+        "args0": [
+          {
+            "type": "field_image",
+            "src": ImgUrl + 'move.svg',
+            "width": 20,
+            "height": 20,
+            "alt": "",
+            "flipRtl": false
+          },
+          {
+            "type": "field_dropdown",
+            "name": "direction",
+            "options": [
+              [
+                {
+                  "src": ImgUrl + 'arrow-left.svg',
+                  "width": 15,
+                  "height": 15,
+                  "alt": "*"
+                },
+                "turn_left"
+              ],
+              [
+                {
+                  "src": ImgUrl + 'arrow-right.svg',
+                  "width": 15,
+                  "height": 15,
+                  "alt": "*"
+                },
+                "turn_right"
+              ]
+            ]
+          },
+          {
+            type: "input_value",
+            check: "Number",
+            name: "angle",
+          },
+          {
+            min: 0,
+            type: "input_value",
+            check: "Number",
+            value: 50,
+            name: "speed",
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": "",
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["rover_move_turn_angle"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  var dir = block.getFieldValue("direction");
+  var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = "rover." + dir + "_angle(" + angle + ", " + speed + ")\n";
   return code;
 };
 
@@ -1102,3 +1178,117 @@ Blockly.Python["rover_line_sensor_read_single"] = function (block) {
   var code = "rover.read_line_sensors(" + pin + ")";
   return [code, Blockly.Python.ORDER_NONE];
 };
+
+//==============MPU==============
+
+// Blockly.Blocks["rover_mpu_get_accel"] = {
+//   init: function () {
+//     this.jsonInit({
+//       colour: ColorBlock,
+//       tooltip: "",
+//       message0: "%2 đọc cảm biến gia tốc %1",
+//       args0: [
+//         {
+//           type: "field_dropdown",
+//           name: "accel",
+//           options: [
+//             ["x", "x"],
+//             ["y", "y"],
+//             ["z", "z"],
+//           ],
+//         },
+//         {
+//           "type": "field_image",
+//           "src": ImgUrl + "xyz-axis.png",
+//           "width": 20,
+//           "height": 20,
+//           "alt": "*",
+//           "flipRtl": false
+//         }
+//       ],
+//       output: "Number",
+//       helpUrl: ""
+//     });
+//   },
+// };
+
+// Blockly.Blocks["rover_mpu_get_gyro"] = {
+//   init: function () {
+//     this.jsonInit({
+//       colour: ColorBlock,
+//       tooltip: "",
+//       message0: "%2 đọc cảm biến gyroscope %1",
+//       args0: [
+//         {
+//           type: "field_dropdown",
+//           name: "gyro",
+//           options: [
+//             ["roll", "roll"],
+//             ["pitch", "pitch"],
+//             ["yaw", "yaw"],
+//           ]
+//         },
+//         {
+//           "type": "field_image",
+//           "src": ImgUrl + "xyz-axis.png",
+//           "width": 20,
+//           "height": 20,
+//           "alt": "*",
+//           "flipRtl": false
+//         }
+//       ],
+//       output: "Number",
+//       helpUrl: ""
+//     });
+//   },
+// };
+
+// Blockly.Blocks["rover_mpu_is_shake"] = {
+//   init: function () {
+//     this.jsonInit({
+//       colour: ColorBlock,
+//       tooltip: "",
+//       message0: "%1 cảm biến bị rung",
+//       args0: [
+//         {
+//           "type": "field_image",
+//           "src": ImgUrl + "xyz-axis.png",
+//           "width": 20,
+//           "height": 20,
+//           "alt": "*",
+//           "flipRtl": false
+//         }
+//       ],
+//       output: "Boolean",
+//       helpUrl: ""
+//     });
+//   },
+// };
+
+//==============MPU==============
+// Blockly.Python["rover_mpu_get_accel"] = function (block) {
+//   var accel = block.getFieldValue("accel");
+//   Blockly.Python.definitions_['import_yolobit'] = 'from yolobit import *';
+//   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+//   // TODO: Assemble Python into code variable.
+//   var code = "motion.get_accel('" + accel + "')";
+//   return [code, Blockly.Python.ORDER_NONE];
+// };
+
+// Blockly.Python["rover_mpu_get_gyro"] = function (block) {
+//   var gyro = block.getFieldValue("gyro");
+//   Blockly.Python.definitions_['import_yolobit'] = 'from yolobit import *';
+//   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+//   // TODO: Assemble Python into code variable.
+//   var code = "motion.get_gyro_"+ gyro +"()";
+//   return [code, Blockly.Python.ORDER_NONE];
+// };
+
+// Blockly.Python["rover_mpu_is_shake"] = function (block) {
+//   var gyro = block.getFieldValue("gyro");
+//   Blockly.Python.definitions_['import_yolobit'] = 'from yolobit import *';
+//   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+//   // TODO: Assemble Python into code variable.
+//   var code = "motion.is_shaked()";
+//   return [code, Blockly.Python.ORDER_NONE];
+// };
