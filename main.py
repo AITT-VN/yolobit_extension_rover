@@ -109,77 +109,75 @@ rover_ir_rx.start()
 
 
 def on_ble_connected_callback():
-  global ble_connected
-  display.set_all('#00ff00')
-  ble_connected = True
+    global ble_connected
+    display.set_all('#00ff00')
+    ble_connected = True
 
 
 ble.on_connected(on_ble_connected_callback)
 
 
 def on_ble_disconnected_callback():
-  global ble_connected
-  display.set_all('#ff0000')
-  ble_connected = False
+    global ble_connected
+    display.set_all('#ff0000')
+    ble_connected = False
 
 
 ble.on_disconnected(on_ble_disconnected_callback)
 
 
 def on_ble_message_string_receive_callback(chu_E1_BB_97i):
-  global mode, mode_changed
-  if chu_E1_BB_97i == ('!B516'):
-    rover.forward(50)
-  elif chu_E1_BB_97i == ('!B615'):
-    rover.backward(50)
-  elif chu_E1_BB_97i == ('!B714'):
-    rover.turn_left(50)
-  elif chu_E1_BB_97i == ('!B814'):
-    rover.turn_right(50)
-  elif chu_E1_BB_97i == ('!B11:'):  # A
-    mode = ROBOT_MODE_DO_NOTHING
-    mode_changed = True
-  elif chu_E1_BB_97i == ('!B219'):  # B
-    mode = ROBOT_MODE_AVOID_OBS
-    mode_changed = True
-  elif chu_E1_BB_97i == ('!B318'):  # C
-    mode = ROBOT_MODE_FOLLOW
-    mode_changed = True
-  elif chu_E1_BB_97i == ('!B417'):  # D
-    mode = ROBOT_MODE_LINE_FINDER
-    mode_changed = True
-  else:
-    rover.stop()
+    global mode, mode_changed
+    if chu_E1_BB_97i == ('!B516'):
+        rover.forward(50)
+    elif chu_E1_BB_97i == ('!B615'):
+        rover.backward(50)
+    elif chu_E1_BB_97i == ('!B714'):
+        rover.turn_left(50)
+    elif chu_E1_BB_97i == ('!B814'):
+        rover.turn_right(50)
+    elif chu_E1_BB_97i == ('!B11:'):  # A
+        rover.servo_write(1, 0)
+    elif chu_E1_BB_97i == ('!B219'):  # B
+        rover.servo_write(2, 90)
+    elif chu_E1_BB_97i == ('!B318'):  # C
+        rover.servo_write(2, 0)
+    elif chu_E1_BB_97i == ('!B417'):  # D
+        rover.servo_write(1, 90)
+    else:
+        rover.stop()
 
-  if mode_changed:
-    print('mode changed by app')
+    if mode_changed:
+        print('mode changed by app')
 
 
 ble.on_receive_msg("string", on_ble_message_string_receive_callback)
 
-def on_ble_message_name_value_receive_callback(name, value):
-        global current_speed, key, ble_key_received
 
-        if name == 'F':
-            rover.forward(value)
-        elif name == 'B':
-            rover.backward(value)
-        elif name == 'L':
-            rover.turn_left(value/1.5)
-        elif name == 'R':
-            rover.turn_right(value/1.5)
-        elif name == 'S':
-            current_speed = 80
-            rover.stop()
-        elif name == 'S1':
-            rover.servo_write(1, value)
-        elif name == 'S2':
-            rover.servo_write(2, value)
+def on_ble_message_name_value_receive_callback(name, value):
+    global current_speed, key, ble_key_received
+
+    if name == 'F':
+        rover.forward(value)
+    elif name == 'B':
+        rover.backward(value)
+    elif name == 'L':
+        rover.turn_left(value/1.5)
+    elif name == 'R':
+        rover.turn_right(value/1.5)
+    elif name == 'S':
+        current_speed = 80
+        rover.stop()
+    elif name == 'S1':
+        rover.servo_write(1, value)
+    elif name == 'S2':
+        rover.servo_write(2, value)
+
 
 ble.on_receive_msg("name_value", on_ble_message_name_value_receive_callback)
 
 try:
-    while True :
+    while True:
         if mode_changed:
             if mode == ROBOT_MODE_DO_NOTHING:
                 rover.show_rgb_led(0, hex_to_rgb('#ff0000'))
@@ -194,8 +192,8 @@ try:
 
         if mode == ROBOT_MODE_DO_NOTHING:
             if ble_connected:
-              # do nothing and wait for commands from bluetooth
-              time.sleep_ms(500)
+                # do nothing and wait for commands from bluetooth
+                time.sleep_ms(500)
             else:
                 if key != KEY_NONE:
                     if key == KEY_UP:
@@ -225,11 +223,11 @@ try:
 
         elif mode == ROBOT_MODE_AVOID_OBS:
             if rover.ultrasonic.distance_cm() < 15:
-              rover.backward(50, 0.5)
-              rover.turn_right(50, 0.25)
+                rover.backward(50, 0.5)
+                rover.turn_right(50, 0.25)
             else:
-              rover.forward(50)
-        
+                rover.forward(50)
+
         elif mode == ROBOT_MODE_FOLLOW:
             obs_distance = rover.ultrasonic.distance_cm()
 
@@ -245,19 +243,19 @@ try:
 
         elif mode == ROBOT_MODE_LINE_FINDER:
             if rover.read_line_sensors() == (1, 0, 0, 0):
-              rover.turn_left(50)
+                rover.turn_left(50)
             elif rover.read_line_sensors() == (1, 1, 0, 0):
-              rover.turn_left(30)
+                rover.turn_left(30)
             elif rover.read_line_sensors() == (0, 0, 0, 1):
-              rover.turn_right(50)
+                rover.turn_right(50)
             elif rover.read_line_sensors() == (0, 0, 1, 1):
-              rover.turn_right(30)
+                rover.turn_right(30)
             elif rover.read_line_sensors() == (0, 0, 0, 0):
-              # while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
-              rover.backward(20)
+                # while not ((rover.read_line_sensors(0)) or (rover.read_line_sensors(1)) or (rover.read_line_sensors(2)) or (rover.read_line_sensors(3))):
+                rover.backward(20)
             else:
-              rover.forward(25)
-            
+                rover.forward(25)
+
 except KeyboardInterrupt:
     print('Rover program stopped')
 finally:
@@ -270,4 +268,3 @@ finally:
     ble.on_disconnected(None)
     del mode, mode_changed, current_speed, ble_connected, key, on_ble_message_string_receive_callback, on_ble_connected_callback, on_ble_disconnected_callback, on_button_a_pressed
     gc.collect()
-
