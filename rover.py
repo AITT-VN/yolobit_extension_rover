@@ -1,12 +1,20 @@
-from yolobit import *
-import machine
-import neopixel
-from machine import *
-import time
-from utility import *
-import rover_pcf8574
-import rover_hcsr04
-from rover_ir import *
+try:
+    from yolobit import *
+    import machine
+    import neopixel
+    from machine import *
+    import time
+    from utility import *
+    import rover_pcf8574
+    import rover_hcsr04
+    from rover_ir import * 
+    print('Import Rover done')
+
+except KeyboardInterrupt as err:
+    print('Import interrupted')
+    for m in ['yolobit', 'machine', 'neopixel', 'rover_pcf8574', 'rover_hcsr04', 'rover_ir']:
+        if m in sys.modules:
+            del sys.modules[m]
 
 # IR receiver
 rover_ir_rx = IR_RX(Pin(pin4.pin, Pin.IN))
@@ -261,3 +269,4 @@ rover = Rover()
 
 def stop_all():  # override stop function called by app
     rover.stop()
+
