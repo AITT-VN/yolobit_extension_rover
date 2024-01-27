@@ -8,7 +8,7 @@ Blockly.Blocks['rover_move'] = {
     this.jsonInit(
       {
         "type": "rover_move",
-        "message0": "%1 di chuyển %2 với tốc độ %3 (0-100)",
+        "message0": Blockly.Msg.ROVER_MOVE_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -27,7 +27,7 @@ Blockly.Blocks['rover_move'] = {
                   "src": ImgUrl + 'arrow-up.svg',
                   "width": 15,
                   "height": 15,
-                  "alt": "*"
+                  "alt": Blockly.Msg.ROVER_MOVE_FORWARD
                 },
                 "forward"
               ],
@@ -36,7 +36,7 @@ Blockly.Blocks['rover_move'] = {
                   "src": ImgUrl + 'arrow-down.svg',
                   "width": 15,
                   "height": 15,
-                  "alt": "*"
+                  "alt": Blockly.Msg.ROVER_MOVE_BACKWARD
                 },
                 "backward"
               ],
@@ -45,7 +45,7 @@ Blockly.Blocks['rover_move'] = {
                   "src": ImgUrl + 'arrow-left.svg',
                   "width": 15,
                   "height": 15,
-                  "alt": "*"
+                  "alt": Blockly.Msg.ROVER_MOVE_LEFT
                 },
                 "turn_left"
               ],
@@ -54,7 +54,7 @@ Blockly.Blocks['rover_move'] = {
                   "src": ImgUrl + 'arrow-right.svg',
                   "width": 15,
                   "height": 15,
-                  "alt": "*"
+                  "alt": Blockly.Msg.ROVER_MOVE_RIGHT
                 },
                 "turn_right"
               ]
@@ -72,8 +72,8 @@ Blockly.Blocks['rover_move'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_MOVE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_MOVE_HELPURL
       }
     );
   }
@@ -93,7 +93,7 @@ Blockly.Blocks['rover_move_delay'] = {
     this.jsonInit(
       {
         "type": "rover_move_delay",
-        "message0": "%1 di chuyển %2 với tốc độ %3 (0-100) trong %4 giây",
+        "message0": Blockly.Msg.ROVER_MOVE_DELAY_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -163,8 +163,8 @@ Blockly.Blocks['rover_move_delay'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_MOVE_DELAY_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_MOVE_DELAY_HELPURL
       }
     );
   }
@@ -185,7 +185,7 @@ Blockly.Blocks['rover_move_motor'] = {
     this.jsonInit(
       {
         "type": "rover_move_motor",
-        "message0": "%3 quay động cơ trái tốc độ %1 động cơ phải %2 (-100 đến 100)",
+        "message0": Blockly.Msg.ROVER_MOVE_MOTOR_MESSAGE0,
         "args0": [
           {
             "type": "input_value",
@@ -210,8 +210,8 @@ Blockly.Blocks['rover_move_motor'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_MOVE_MOTOR_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_MOVE_MOTOR_HELPURL
       }
     );
   }
@@ -230,7 +230,7 @@ Blockly.Blocks['rover_stop'] = {
   init: function () {
     this.jsonInit({
       "type": "rover_stop",
-      "message0": "%1 dừng di chuyển",
+      "message0": Blockly.Msg.ROVER_STOP_MESSAGE0,
       "args0": [
         {
           "type": "field_image",
@@ -244,8 +244,8 @@ Blockly.Blocks['rover_stop'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": ColorBlock,
-      "tooltip": "",
-      "helpUrl": ""
+      "tooltip": Blockly.Msg.ROVER_STOP_TOOLTIP,
+      "helpUrl": Blockly.Msg.ROVER_STOP_HELPURL
     });
   }
 };
@@ -264,8 +264,8 @@ Blockly.Blocks["rover_servo_write_angle"] = {
     this.jsonInit({
       colour: ColorBlock,
       nextStatement: null,
-      tooltip: '',
-      message0: '%3 quay servo chân %2 đến góc (0-180 độ) %1',
+      tooltip: Blockly.Msg.ROVER_SERVO_WRITE_TOOLTIP,
+      message0: Blockly.Msg.ROVER_SERVO_WRITE_MESSAGE0,
       previousStatement: null,
       args0: [
         { type: "input_value", name: "angle", check: "Number" },
@@ -286,7 +286,7 @@ Blockly.Blocks["rover_servo_write_angle"] = {
           "flipRtl": false
         }
       ],
-      helpUrl: '',
+      helpUrl: Blockly.Msg.ROVER_SERVO_WRITE_HELPURL,
     });
   },
 };
@@ -304,7 +304,7 @@ Blockly.Blocks['rover_servo360_write'] = {
     this.jsonInit(
       {
         "type": "rover_servo360_write",
-        message0: '%3 quay servo 360 chân %1 với tốc độ %2 (-100 đến 100)',
+        message0: Blockly.Msg.ROVER_SERVO360_WRITE_MESSAGE0,
         "args0": [
           {
             type: "field_dropdown",
@@ -332,8 +332,8 @@ Blockly.Blocks['rover_servo360_write'] = {
         "previousStatement": null,
         "nextStatement": null,
         colour: ColorBlock,
-        "tooltip": '',
-        "helpUrl": ''
+        "tooltip": Blockly.Msg.ROVER_SERVO360_WRITE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_SERVO360_WRITE_HELPURL
       }
     );
   }
@@ -354,22 +354,22 @@ Blockly.Blocks['rover_show_led'] = {
     this.jsonInit(
       {
         "type": "rover_show_led",
-        "message0": "%2 đèn %1 ",
+        "message0": Blockly.Msg.ROVER_SHOW_LED_MESSAGE0,
         "args0": [
           {
             "type": "field_dropdown",
             "name": "led",
             "options": [
               [
-                "cả hai bên",
+                Blockly.Msg.ROVER_SHOW_LED_BOTH,
                 "0"
               ],
               [
-                "trái",
+                Blockly.Msg.ROVER_SHOW_LED_LEFT,
                 "1"
               ],
               [
-                "phải",
+                Blockly.Msg.ROVER_SHOW_LED_RIGHT,
                 "2"
               ]
             ]
@@ -379,11 +379,11 @@ Blockly.Blocks['rover_show_led'] = {
             "name": "state",
             "options": [
               [
-                "bật",
+                Blockly.Msg.ON,
                 "1"
               ],
               [
-                "tắt",
+                Blockly.Msg.OFF,
                 "0"
               ]
             ]
@@ -392,8 +392,8 @@ Blockly.Blocks['rover_show_led'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_SHOW_LED_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_SHOW_LED_HELPURL
       }
     );
   }
@@ -415,7 +415,7 @@ Blockly.Blocks['rover_show_rgb_led_array'] = {
     this.jsonInit(
       {
         "type": "rover_show_rgb_led",
-        "message0": "%7 đổi led RGB 1 %1 2 %2 3 %3 4 %4 5 %5 6 %6",
+        "message0": Blockly.Msg.ROVER_RGB_LED_MESSAGE0,
         "args0": [
           {
             "type": "input_value",
@@ -454,8 +454,8 @@ Blockly.Blocks['rover_show_rgb_led_array'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_RGB_LED_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_RGB_LED_HELPURL
       }
     );
   }
@@ -484,7 +484,7 @@ Blockly.Blocks['rover_show_rgb_led'] = {
     this.jsonInit(
       {
         "type": "rover_show_rgb_led",
-        "message0": "%3 đổi led RGB số %1 thành màu %2",
+        "message0": Blockly.Msg.ROVER_RGB_LED_SINGLE_MESSAGE0,
         "args0": [
           {
             "type": "input_value",
@@ -507,8 +507,8 @@ Blockly.Blocks['rover_show_rgb_led'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_RGB_LED_SINGLE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_RGB_LED_SINGLE_HELPURL
       }
     );
   }
@@ -527,7 +527,7 @@ Blockly.Blocks['rover_show_rgb_led_all'] = {
   init: function () {
     this.jsonInit({
       "type": "rover_show_rgb_led_all",
-      "message0": "%2 đổi màu tất cả led RGB thành %1",
+      "message0": Blockly.Msg.ROVER_RGB_LED_ALL_MESSAGE0,
       "args0": [
         {
           "type": "input_value",
@@ -546,8 +546,8 @@ Blockly.Blocks['rover_show_rgb_led_all'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": ColorBlock,
-      "tooltip": "",
-      "helpUrl": ""
+      "tooltip": Blockly.Msg.ROVER_RGB_LED_ALL_TOOLTIP,
+      "helpUrl": Blockly.Msg.ROVER_RGB_LED_ALL_HELPURL
     }
     );
   }
@@ -568,7 +568,7 @@ Blockly.Blocks['rover_ultrasonic_read'] = {
     this.jsonInit(
       {
         "type": "rover_ultrasonic_read",
-        "message0": "%1 đọc cảm biến khoảng cách (cm)",
+        "message0": Blockly.Msg.ROVER_ULTRASONIC_READ_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -581,8 +581,8 @@ Blockly.Blocks['rover_ultrasonic_read'] = {
         ],
         "colour": ColorBlock,
         "output": "Number",
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_ULTRASONIC_READ_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_ULTRASONIC_READ_HELPURL
       }
     );
   }
@@ -600,7 +600,7 @@ Blockly.Blocks['rover_ultrasonic_detect'] = {
     this.jsonInit(
       {
         "type": "rover_ultrasonic_detect",
-        "message0": "%1 đọc cảm biến khoảng cách %2 %3 cm %4",
+        "message0": Blockly.Msg.ROVER_ULTRASONIC_CHECK_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -629,8 +629,8 @@ Blockly.Blocks['rover_ultrasonic_detect'] = {
         ],
         "colour": ColorBlock,
         "output": "Boolean",
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_ULTRASONIC_CHECK_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_ULTRASONIC_CHECK_HELPURL
       }
     );
   }
@@ -651,8 +651,8 @@ Blockly.Blocks["rover_ir_recv"] = {
   init: function () {
     this.jsonInit({
       colour: ColorBlock,
-      tooltip: "",
-      message0: "%1 nút %2 trên remote được nhấn",
+      tooltip: Blockly.Msg.ROVER_IR_IF_RECEIVED_TOOLTIP,
+      message0: Blockly.Msg.ROVER_IR_IF_RECEIVED_MESSAGE0,
       args0: [
         {
           "type": "field_image",
@@ -723,7 +723,7 @@ Blockly.Blocks["rover_ir_recv"] = {
         },
       ],
       output: "Boolean",
-      helpUrl: "",
+      helpUrl: Blockly.Msg.ROVER_IR_IF_RECEIVED_HELPURL,
     });
   },
   getDeveloperVars: function () {
@@ -744,8 +744,8 @@ Blockly.Blocks["rover_ir_clear"] = {
   init: function () {
     this.jsonInit({
       colour: ColorBlock,
-      tooltip: "",
-      message0: "%1 xóa tín hiệu đã thu được",
+      tooltip: Blockly.Msg.ROVER_IR_CLEAR_TOOLTIP,
+      message0: Blockly.Msg.ROVER_IR_CLEAR_MESSAGE0,
       args0: [
         {
           "type": "field_image",
@@ -758,7 +758,7 @@ Blockly.Blocks["rover_ir_clear"] = {
       ],
       previousStatement: null,
       nextStatement: null,
-      helpUrl: "",
+      helpUrl: Blockly.Msg.ROVER_IR_CLEAR_HELPURL,
     });
   },
   getDeveloperVars: function () {
@@ -777,7 +777,7 @@ Blockly.Blocks["rover_ir_on_receive"] = {
   init: function () {
     this.jsonInit({
       colour: ColorBlock,
-      message0: "nếu %1 nhận được %2 %3 %4 từ remote",
+      message0: Blockly.Msg.ROVER_IR_ON_RECEIVED_MESSAGE0,
       args0: [
         {
           "type": "field_image",
@@ -788,7 +788,7 @@ Blockly.Blocks["rover_ir_on_receive"] = {
           "flipRtl": false
         },
         {
-          variable: "tín hiệu",
+          variable: Blockly.Msg.ROVER_IR_ON_RECEIVED_MESSAGE1,
           type: "field_variable",
           name: "message",
         },
@@ -800,7 +800,7 @@ Blockly.Blocks["rover_ir_on_receive"] = {
           name: "ACTION",
         },
       ],
-      helpUrl: "",
+      helpUrl: Blockly.Msg.ROVER_IR_ON_RECEIVED_HELPURL,
     });
   },
   getDeveloperVars: function () {
@@ -844,8 +844,8 @@ Blockly.Blocks["rover_ir_remote_btn"] = {
   init: function () {
     this.jsonInit({
       colour: ColorBlock,
-      tooltip: "",
-      message0: "nút %1",
+      tooltip: Blockly.Msg.ROVER_IR_REMOTE_BUTTON_TOOLTIP,
+      message0: Blockly.Msg.ROVER_IR_REMOTE_BUTTON_MESSAGE0,
       args0: [
         {
           type: "field_dropdown",
@@ -908,7 +908,7 @@ Blockly.Blocks["rover_ir_remote_btn"] = {
         },
       ],
       output: "Boolean",
-      helpUrl: "",
+      helpUrl: Blockly.Msg.ROVER_IR_REMOTE_BUTTON_HELPURL,
     });
   },
   getDeveloperVars: function () {
@@ -932,7 +932,7 @@ Blockly.Blocks['rover_line_sensor_read_all'] = {
     this.jsonInit(
       {
         "type": "rover_line_sensor_read_all",
-        "message0": "%1 cảm biến line phát hiện S1 %2 S2 %3 S3 %4 S4 %5",
+        "message0": Blockly.Msg.ROVER_LINE_READ_ALL_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -1041,8 +1041,8 @@ Blockly.Blocks['rover_line_sensor_read_all'] = {
         ],
         "colour": ColorBlock,
         "output": "Boolean",
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_LINE_READ_ALL_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_LINE_READ_ALL_HELPURL
       }
     );
   }
@@ -1065,7 +1065,7 @@ Blockly.Blocks['rover_line_sensor_read_single'] = {
     this.jsonInit(
       {
         "type": "rover_line_sensor_read_single",
-        "message0": "%1 cảm biến line đọc giá trị %2",
+        "message0": Blockly.Msg.ROVER_LINE_READ_SINGLE_MESSAGE0,
         "args0": [
           {
             "type": "field_image",
@@ -1088,8 +1088,8 @@ Blockly.Blocks['rover_line_sensor_read_single'] = {
         ],
         "colour": ColorBlock,
         "output": "",
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROVER_LINE_READ_SINGLE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROVER_LINE_READ_SINGLE_HELPURL
       }
     );
   }
