@@ -379,11 +379,11 @@ Blockly.Blocks['rover_show_led'] = {
             "name": "state",
             "options": [
               [
-                Blockly.Msg.ON,
+                Blockly.Msg.ROVER_SHOW_LED_ON,
                 "1"
               ],
               [
-                Blockly.Msg.OFF,
+                Blockly.Msg.ROVER_SHOW_LED_OFF,
                 "0"
               ]
             ]

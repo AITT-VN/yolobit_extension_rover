@@ -33,6 +33,8 @@ Blockly.Msg.ROVER_SHOW_LED_HELPURL = ""
 Blockly.Msg.ROVER_SHOW_LED_BOTH = "both left and right"
 Blockly.Msg.ROVER_SHOW_LED_LEFT = "left"
 Blockly.Msg.ROVER_SHOW_LED_RIGHT = "right"
+Blockly.Msg.ROVER_SHOW_LED_ON = "on"
+Blockly.Msg.ROVER_SHOW_LED_OFF = "off"
 
 Blockly.Msg.ROVER_RGB_LED_MESSAGE0 = "%7 set RGB LED 1 %1 2 %2 3 %3 4 %4 5 %5 6 %6"
 Blockly.Msg.ROVER_RGB_LED_TOOLTIP = ""
