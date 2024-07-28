@@ -19,6 +19,10 @@ Blockly.Msg.ROVER_STOP_MESSAGE0 = "%1 dừng di chuyển"
 Blockly.Msg.ROVER_STOP_TOOLTIP = "Dừng di chuyển robot"
 Blockly.Msg.ROVER_STOP_HELPURL = ""
 
+Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0 = "cài đặt tỉ lệ tốc độ trái %1 phải %2 "
+Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP = "Cài đặt tỉ lệ tốc độ trái và phải để robot di chuyển đều hơn"
+Blockly.Msg.ROVER_MOVE_RATIO_HELPURL = ""
+
 Blockly.Msg.ROVER_SERVO_WRITE_MESSAGE0 = "%3 quay servo %2 góc (0-180 độ) %1"
 Blockly.Msg.ROVER_SERVO_WRITE_TOOLTIP = "Quay động cơ servo đến góc chỉ định"
 Blockly.Msg.ROVER_SERVO_WRITE_HELPURL = ""

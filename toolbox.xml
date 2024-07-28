@@ -1,5 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="ROVER" colour="#cb2026" icon="road">
+    <label text="Di chuyển" web-class="blockLabelStyle"></label>
     <block type="rover_move">
       <value name="speed">
         <shadow type="math_number">
@@ -34,6 +35,22 @@
 
     <block type="rover_stop"/>
 
+    <block type="rover_set_speed_ratio" >
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="right">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
+    <sep gap="30"></sep>
+    <label text="Servo" web-class="blockLabelStyle"></label>
+
     <block type="rover_servo_write_angle">
       <value name="angle">
         <shadow type="math_number">
@@ -50,6 +67,9 @@
       </value>
     </block>
 
+    <sep gap="30"></sep>
+    <label text="Cảm biến" web-class="blockLabelStyle"></label>
+
     <block type="rover_line_sensor_read_all" />
     <block type="rover_line_sensor_read_single" />
 
@@ -61,6 +81,9 @@
         </shadow>
       </value>
     </block>
+
+    <sep gap="30"></sep>
+    <label text="Đèn LED" web-class="blockLabelStyle"></label>
 
     <block type="rover_show_led"/>
 
@@ -115,6 +138,9 @@
         </shadow>
       </value>
     </block>
+
+    <sep gap="30"></sep>
+    <label text="Remote IR" web-class="blockLabelStyle"></label>
 
     <block type="rover_ir_on_receive"/>
     <block type="rover_ir_remote_btn"/>

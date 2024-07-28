@@ -20,7 +20,7 @@ except KeyboardInterrupt as err:
 rover_ir_rx = IR_RX(Pin(pin4.pin, Pin.IN))
 
 
-class Rover():
+class Rover:
 
     def __init__(self):
         # motor pins
@@ -33,15 +33,18 @@ class Rover():
         self.servo1 = PWM(Pin(pin16.pin), freq=50, duty=0)
         self.servo2 = PWM(Pin(pin3.pin), freq=50, duty=0)
 
+        self._min_speed = 35 # need to test
         self.m1_speed = 0
         self.m2_speed = 0
+
+        self._speed_ratio = (1, 1)
 
         # line IR sensors
         try:
             self.pcf = rover_pcf8574.PCF8574(
                 machine.SoftI2C(
-                    scl=machine.Pin(22),
-                    sda=machine.Pin(21)), 0x23)
+                    scl=machine.Pin(pin19.pin),
+                    sda=machine.Pin(pin20.pin)), 0x23)
         except:
             say('Line IR sensors not detected')
             self.pcf = None
@@ -59,6 +62,15 @@ class Rover():
         self.stop()
 
         say('Rover setup done!')
+
+    '''
+        Config robot speed ration to keep it moving straight.
+
+        Parameters:
+
+    '''
+    def speed_ratio(self, left, right):
+        self._speed_ratio = (left, right)
 
     def forward(self, speed, t=None):
         self.set_wheel_speed(speed, speed)
@@ -89,6 +101,21 @@ class Rover():
         time.sleep_ms(20)
 
     def set_wheel_speed(self, m1_speed, m2_speed):
+        # adjust speed based on ratio
+        if m1_speed == m2_speed: # only when go forward or backward
+            m1_speed = int(m1_speed*self._speed_ratio[0])
+            m2_speed = int(m2_speed*self._speed_ratio[1])
+
+        if m1_speed < -100:
+            m1_speed = -100
+        elif m1_speed > 100:
+            m1_speed = 100
+        
+        if m2_speed < -100:
+            m2_speed = -100
+        elif m2_speed > 100:
+            m2_speed = 100
+
         # logic to smoothen motion, avoid voltage spike
         # if wheel speed change > 30, need to change to 30 first
         if (m1_speed != 0 and abs(m1_speed - self.m1_speed) > 30) and (m2_speed != 0 and abs(m2_speed - self.m2_speed) > 30):
@@ -265,7 +292,6 @@ class Rover():
 
         else:
             self.stop()
-
 
 rover = Rover()
 

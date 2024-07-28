@@ -257,6 +257,45 @@ Blockly.Python["rover_stop"] = function (block) {
   return code;
 };
 
+Blockly.Blocks['rover_set_speed_ratio'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "rover_set_speed_ratio",
+        "message0": Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0,
+        "args0": [
+          {
+            type: "input_value",
+            check: "Number",
+            value: 1,
+            name: "left",
+          },
+          {
+            type: "input_value",
+            check: "Number",
+            value: 1,
+            name: "right",
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP,
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["rover_set_speed_ratio"] = function (block) {
+  var left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+  var right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = "rover.speed_ratio(" + left + ", " + right + ")\n";
+  return code;
+};
+
 // Servo
 
 Blockly.Blocks["rover_servo_write_angle"] = {
