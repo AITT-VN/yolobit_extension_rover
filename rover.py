@@ -203,6 +203,8 @@ class Rover:
             pass
 
     def show_rgb_led(self, index, color, delay=None):
+        # decrease led light intensity
+        color = (int(color[0]/2), int(color[1]/2), int(color[2]/2))
         if index == 0:
             for i in range(self._num_leds):
                 self._rgb_leds[i] = color
