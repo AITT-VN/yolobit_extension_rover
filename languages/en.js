@@ -19,8 +19,8 @@ Blockly.Msg.ROVER_STOP_MESSAGE0 = "%1 stop"
 Blockly.Msg.ROVER_STOP_TOOLTIP = "Stop robot"
 Blockly.Msg.ROVER_STOP_HELPURL = ""
 
-Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0 = "Setup left and right motor speed ration to move straighter"
-Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP = "set speed ration left %1 right %2 "
+Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0 = "set speed ratio left %1 right %2"
+Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP = "Setup left and right motor speed ratio to move straighter"
 Blockly.Msg.ROVER_MOVE_RATIO_HELPURL = ""
 
 Blockly.Msg.ROVER_SERVO_WRITE_MESSAGE0 = "%3 set servo %2 position (0-180) %1"
