@@ -296,6 +296,45 @@ Blockly.Python["rover_set_speed_ratio"] = function (block) {
   return code;
 };
 
+Blockly.Blocks['rover_save_speed_ratio'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "rover_save_speed_ratio",
+        "message0": Blockly.Msg.ROVER_SAVE_RATIO_MESSAGE0,
+        "args0": [
+          {
+            type: "input_value",
+            check: "Number",
+            value: 1,
+            name: "left",
+          },
+          {
+            type: "input_value",
+            check: "Number",
+            value: 1,
+            name: "right",
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": Blockly.Msg.ROVER_SAVE_RATIO_TOOLTIP,
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["rover_save_speed_ratio"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  var left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+  var right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+  var code = "rover.save_speed_ratio(" + left + ", " + right + ")\n";
+  return code;
+};
+
 // Servo
 
 Blockly.Blocks["rover_servo_write_angle"] = {

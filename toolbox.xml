@@ -48,6 +48,19 @@
       </value>
     </block>
 
+    <block type="rover_save_speed_ratio" >
+      <value name="left">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="right">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+
     <sep gap="30"></sep>
     <label text="Servo" web-class="blockLabelStyle"></label>
 

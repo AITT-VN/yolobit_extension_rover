@@ -23,6 +23,10 @@ Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0 = "cài đặt tỉ lệ tốc độ trái
 Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP = "Cài đặt tỉ lệ tốc độ trái và phải để robot di chuyển đều hơn"
 Blockly.Msg.ROVER_MOVE_RATIO_HELPURL = ""
 
+Blockly.Msg.ROVER_SAVE_RATIO_MESSAGE0 = "lưu tỉ lệ tốc độ trái %1 phải %2 vào bộ nhớ"
+Blockly.Msg.ROVER_SAVE_RATIO_TOOLTIP = "Lưu tỉ lệ tốc độ vào bộ nhớ robot, giữ nguyên khi nạp code mới, chỉ mất khi nạp lại firmware"
+Blockly.Msg.ROVER_SAVE_RATIO_HELPURL = ""
+
 Blockly.Msg.ROVER_SERVO_WRITE_MESSAGE0 = "%3 quay servo %2 góc (0-180 độ) %1"
 Blockly.Msg.ROVER_SERVO_WRITE_TOOLTIP = "Quay động cơ servo đến góc chỉ định"
 Blockly.Msg.ROVER_SERVO_WRITE_HELPURL = ""

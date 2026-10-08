@@ -37,7 +37,10 @@ class Rover:
         self.m1_speed = 0
         self.m2_speed = 0
 
+        # speed ratio saved in device config.json (kept when uploading code,
+        # only erased when the firmware is flashed again)
         self._speed_ratio = (1, 1)
+        self.load_speed_ratio()
 
         # line IR sensors
         try:
@@ -64,13 +67,49 @@ class Rover:
         say('Rover setup done!')
 
     '''
-        Config robot speed ration to keep it moving straight.
+        Config robot speed ratio to keep it moving straight (until reboot).
 
         Parameters:
-
+            left, right: speed ratio of each wheel. Ratio is normalized so
+            the faster wheel is 1, so speed 100 is never clipped.
     '''
     def speed_ratio(self, left, right):
-        self._speed_ratio = (left, right)
+        left = max(0, left)
+        right = max(0, right)
+        max_ratio = max(left, right)
+        if max_ratio == 0:
+            self._speed_ratio = (1, 1)
+            return
+        self._speed_ratio = (round(left / max_ratio, 3), round(right / max_ratio, 3))
+
+    '''
+        Config speed ratio and save it to device memory. The ratio is loaded
+        again on every boot, so it is kept when uploading new code.
+    '''
+    def save_speed_ratio(self, left=None, right=None):
+        if left != None and right != None:
+            self.speed_ratio(left, right)
+
+        ratio = [self._speed_ratio[0], self._speed_ratio[1]]
+        if device_config.get('rover_speed_ratio', None) != ratio:
+            device_config['rover_speed_ratio'] = ratio
+            save_config()
+
+    '''
+        Load speed ratio saved in device memory, (1, 1) if not saved yet.
+    '''
+    def load_speed_ratio(self):
+        try:
+            saved_ratio = device_config.get('rover_speed_ratio', None)
+            if saved_ratio:
+                self.speed_ratio(saved_ratio[0], saved_ratio[1])
+            else:
+                self._speed_ratio = (1, 1)
+        except:
+            print('Failed to load saved speed ratio')
+
+    def get_speed_ratio(self):
+        return self._speed_ratio
 
     def forward(self, speed, t=None):
         self.set_wheel_speed(speed, speed)

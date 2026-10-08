@@ -23,6 +23,10 @@ Blockly.Msg.ROVER_MOVE_RATIO_MESSAGE0 = "set speed ratio left %1 right %2"
 Blockly.Msg.ROVER_MOVE_RATIO_TOOLTIP = "Setup left and right motor speed ratio to move straighter"
 Blockly.Msg.ROVER_MOVE_RATIO_HELPURL = ""
 
+Blockly.Msg.ROVER_SAVE_RATIO_MESSAGE0 = "save speed ratio left %1 right %2 to memory"
+Blockly.Msg.ROVER_SAVE_RATIO_TOOLTIP = "Save speed ratio to robot memory, kept when uploading new code, erased only when flashing firmware"
+Blockly.Msg.ROVER_SAVE_RATIO_HELPURL = ""
+
 Blockly.Msg.ROVER_SERVO_WRITE_MESSAGE0 = "%3 set servo %2 position (0-180) %1"
 Blockly.Msg.ROVER_SERVO_WRITE_TOOLTIP = "Set position of servo to specified angle"
 Blockly.Msg.ROVER_SERVO_WRITE_HELPURL = ""
